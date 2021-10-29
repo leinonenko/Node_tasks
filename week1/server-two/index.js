@@ -4,7 +4,12 @@ const express = require ('express');
 const app = express();
 const port = 3000;
 
-app.use(express.static('public'))
+app.set('view engine', 'pug');
+app.use(express.static('public'));
+
+app.get('/', function (req, res) {
+  res.render('index')
+});
 
 app.get('/hello', (req, res) => {
   res.send('Hello World!')
