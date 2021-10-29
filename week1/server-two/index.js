@@ -11,6 +11,10 @@ app.get('/', function (req, res) {
   res.render('index')
 });
 
+app.get('/page2', function (req, res) {
+  res.render('page2', {title: ' Title - Page 2', pageheading: 'This is page 2', page2heading: 'Some extra'});
+});
+
 app.get('/hello', (req, res) => {
   res.send('Hello World!')
 });
