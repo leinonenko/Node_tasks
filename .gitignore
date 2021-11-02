@@ -673,6 +673,12 @@ FodyWeavers.xsd
 #IDE
 .idea/
 
+# ignore content of uploads folder
+uploads/*
+# except one (empty) file to have the folder in version control
+!uploads/.gitkeep
+
+
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
