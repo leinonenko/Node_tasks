@@ -18,6 +18,12 @@ const cats = [
   },
 ];
 
+const getCat = (catId) => {
+  // TODO find single cat objecty from cats-array and return it
+  return cats.find((cat) => cat.id === catId);
+};
+
 module.exports = {
   cats,
+  getCat,
 };
