@@ -1,9 +1,12 @@
 'use strict';
 // catController
 
-const { cats, getCat } = require('../models/catModel')
+const { getAllCats, getCat } = require('../models/catModel')
 
-const cat_list_get = (req, res) => {
+const cat_list_get = async (req, res) => {
+  const cats = await getAllCats()
+  console.log('all cats', cats);
+
   res.json(cats);
 };
 const cat_get = (req, res) => {
