@@ -9,9 +9,9 @@ const cat_list_get = async (req, res) => {
 
   res.json(cats);
 };
-const cat_get = (req, res) => {
-  const cat = getCat(req.params.catId);
-  res.json({});
+const cat_get = async (req, res) => {
+  const cat = await getCat(req.params.catId);
+  res.json(cat);
 }
 
 const cat_post = (req, res) => {
