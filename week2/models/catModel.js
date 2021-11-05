@@ -10,7 +10,7 @@ const getCat = async (catId) => {
   console.log('get by id result?', rows);
   return rows[0];
 } catch (e) {
-  console.err('model get cat by id', e.message);
+  console.error('model get cat by id', e.message);
 }
 };
 
@@ -24,8 +24,20 @@ const getAllCats = async () => {
   }
 };
 
+const insertCat = async (cat) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'INSERT INTO wop_cat (name, weight, owner, birthdate, filename) VALUES (?, ?, ?, ?, ?)',
+        [cat.name, cat.weight, cat.owner, cat.birthdate, cat.filename]);
+    console.log('model insert cat', rows);
+    return rows.insertId;
+  } catch (e) {
+      console.error('model insert cat', e.message);
+    }
+};
 
 module.exports = {
   getAllCats,
   getCat,
+  insertCat,
 };
