@@ -11,17 +11,17 @@ const {
   cat_update,
 } = require('../controllers/catController');
 const router = express.Router();
-/*
+
 router.route('/')
-.get('/',cat_list_get)
-.post('/', upload.single('cat'), cat_post)
-.put('/', cat_update);
+.get(cat_list_get)
+.post( upload.single('cat'), cat_post)
+.put(cat_update);
 
-router.route('/:id')
-.get('/:catId', cat_get)
-.delete('/:catId', cat_delete);
-*/
+router.route('/:catId')
+.get(cat_get)
+.delete(cat_delete);
 
+/*
 router.get('/',cat_list_get);
 
 router.get('/:catId', cat_get);
@@ -34,6 +34,6 @@ router.delete('/', (req, res) => {
   res.send('From this endpoint you can delete cats.')
 });
 router.delete('/:catId', cat_delete);
-
+*/
 
 module.exports = router;
