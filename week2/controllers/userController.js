@@ -1,65 +1,56 @@
 'use strict';
-// userController
+//userController
+const {getAllUsers, getUser, insertUser, deleteUser, updateUser} = require(
+    '../models/userModel');
+const {httpError} = require('../utils/errors');
+const {validationResult} = require('express-validator');
 
-const { users, getUser } = require('../models/userModel')
-
-/*
-const user_list_get = (req, res) => {
-  users.map((user)=>{
-    delete user.password;
-    return user;
-  });
-  res.json(users);
+const user_list_get = async (req, res, next) => {
+  const users = await getAllUsers();
+  console.log('all users', users);
+  if (users.length > 0) {
+    res.json(users);
+    return;
+  }
+  const err = httpError('User not found', 404);
+  next(err);
 };
 
-const user_get = (req, res) => {
-  const user = getUser(req.params.userId);
-  delete  user.password;
-  res.json(user);
+const user_get = async (req, res, next) => {
+  const user = await getUser(req.params.userId);
+  if (user) {
+    res.json(user);
+    return;
+  }
+  const err = httpError('User not found', 404);
+  next(err);
 };
-// TODO post!
-const user_post = async (req, res) => {
+
+const user_post = async (req, res, next) => {
   console.log('add user data', req.body);
-  console.log('filename', req.file)
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.error('user_post validation', errors.array());
+    const err = httpError('Data no valid', 400);
+    next(err);
+    return;
+  }
   const user = req.body;
-  user.filename = req.file.filename;
-  user.message = `User added with id: ${await insertUser(user)}`;
-  res.json({message:`User created with id: ${id}`});
-}
+  const id = await insertUser(user);
+  res.send(`cat added with id ${id}`);
+  res.json(id);
+};
 
 const user_delete = async (req, res) => {
   const deleted = await deleteUser(req.params.userId);
-  res.json({message:`User deleted: ${deleted}`});
+  res.json({message: `user deleted:${deleted}`});
 };
 
 const user_update = async (req, res) => {
+  console.log('controller update user', req.body);
   const updated = await updateUser(req.body);
-  res.json({message: `User updated:${updated}`});
-}
-*/
-
-const user_list_get = (req, res) => {
-  users.map((user)=>{
-    delete user.password;
-    return user;
-  });
-  res.json(users);
-};
-
-const user_get = (req, res) => {
-  const user = getUser(req.params.userId);
-  delete  user.password;
-  res.json(user);
-};
-
-const user_post = (req, res) => {
-  console.log('add user data', req.body);
-  res.send('From this endpoint you can add user.');
-};
-
-const user_delete = async (req, res) => {
-  const deleted = await deleteUser(req.params.userId);
-  res.json({message:`User deleted: ${deleted}`});
+  console.log(updated);
+  res.json({message: `user updated: ${updated}`});
 };
 
 module.exports = {
@@ -67,5 +58,5 @@ module.exports = {
   user_get,
   user_post,
   user_delete,
-  
+  user_update,
 };

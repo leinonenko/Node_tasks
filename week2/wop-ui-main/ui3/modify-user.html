@@ -21,10 +21,10 @@
         <div class="forms">
             <div class="form-wrapper">
                 <h3>Modify user</h3>
-                <form class="light-border" id="modUserForm">
-                    <input class="light-border" type="text" name="name" placeholder="Name">
-                    <input class="light-border" type="email" name="email" placeholder="email">
-                    <input class="light-border" type="password" name="passwd" placeholder="Password">
+                <form action="http://localhost:3000/user" method="post" class="light-border" id="addUserForm">
+                    <input class="light-border" type="text" required minlength="3" name="name" placeholder="Name">
+                    <input class="light-border" type="email" required name="email" placeholder="email">
+                    <input class="light-border" type="password" pattern="(?=.*[A-Z]).{8,}" name="passwd" placeholder="Password">
                     <button class="light-border" type="submit">Save</button>
                 </form>
             </div>
