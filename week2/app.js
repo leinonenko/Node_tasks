@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 const catRoute = require('./routes/catRoute')
 const userRoute = require('./routes/userRoute')
+const { httpError } = require('./utils/errors')
 const app = express();
 const port = 3000;
 
@@ -17,9 +18,14 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 app.use('/cat', catRoute);
 app.use('/user', userRoute);
 
+app.use((req, res, next) => {
+  const  err = httpError('Not found', 404)
+  next(err);
+});
+
 app.use((err, req, res, next) => {
   const status = err.status || 500;
-  res.status(status). send(err.message || "Internal error");
+  res.status(status). json({ error: err.message || "Internal error"});
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

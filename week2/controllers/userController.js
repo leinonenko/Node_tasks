@@ -16,7 +16,7 @@ const user_get = (req, res) => {
   const user = getUser(req.params.userId);
   delete  user.password;
   res.json(user);
-}
+};
 // TODO post!
 const user_post = async (req, res) => {
   console.log('add user data', req.body);
@@ -50,15 +50,22 @@ const user_get = (req, res) => {
   const user = getUser(req.params.userId);
   delete  user.password;
   res.json(user);
-}
+};
 
 const user_post = (req, res) => {
   console.log('add user data', req.body);
   res.send('From this endpoint you can add user.');
-}
+};
+
+const user_delete = async (req, res) => {
+  const deleted = await deleteUser(req.params.userId);
+  res.json({message:`User deleted: ${deleted}`});
+};
 
 module.exports = {
   user_list_get,
   user_get,
-  user_post
+  user_post,
+  user_delete,
+  
 };

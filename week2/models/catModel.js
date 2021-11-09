@@ -1,6 +1,7 @@
 'use strict';
 
 const pool = require('../database/db');
+const {httpError} = require('../utils/errors');
 const promisePool = pool.promise();
 
 const getCat = async (catId) => {
@@ -11,6 +12,8 @@ const getCat = async (catId) => {
   return rows[0];
 } catch (e) {
   console.error('model get cat by id', e.message);
+  const err = httpError('Sql error', 500);
+  next(err);
 }
 };
 
