@@ -10,7 +10,7 @@ const getCat = async (catId, next) => {
     const [rows] = await promisePool.query(
         `SELECT cat_id, owner, wop_cat.name AS name, weight, birthdate, filename, wop_user.name AS ownername FROM wop_cat INNER JOIN wop_user ON owner = user_id WHERE cat_id = ?`,
         [catId]);
-    console.log('get by id', rows);
+    console.log('Get by id', rows);
     return rows[0];
   } catch (e) {
     console.error('error', e.message);

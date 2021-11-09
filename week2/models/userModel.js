@@ -8,7 +8,7 @@ const getUser = async (userId, next) => {
   try {
     const [rows] = await promisePool.query(
         `SELECT * FROM wop_user where user_id = ?`, [userId]);
-    console.log('get by id', rows);
+    console.log('Get by id', rows);
     return rows[0];
   } catch (e) {
     console.error('error', e.message);

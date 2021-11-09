@@ -10,8 +10,12 @@ const fileFilter = (req, file, cb) => {
   cb(null, false);
 };
 const upload = multer({dest: './upload/',fileFilter});
-const {cat_list_get, cat_get, cat_post, cat_delete, cat_update} = require(
-    '../controllers/catController');
+const {cat_list_get,
+  cat_get,
+  cat_post,
+  cat_delete,
+  cat_update
+} = require('../controllers/catController');
 const {body} = require('express-validator');
 const router = express.Router();
 
@@ -26,6 +30,8 @@ router.route('/').
     ).
     put(cat_update);
 
-router.route('/:catId').get(cat_get).delete(cat_delete);
+router.route('/:catId')
+.get(cat_get)
+.delete(cat_delete);
 
 module.exports = router;

@@ -1,6 +1,10 @@
 'use strict';
 // catController
-const {getAllCats, getCat, insertCat, deleteCat, updateCat} = require('../models/catModel');
+const {getAllCats,
+  getCat,
+  insertCat,
+  deleteCat,
+  updateCat} = require('../models/catModel');
 const {httpError} = require('../utils/errors');
 const {validationResult} = require('express-validator');
 

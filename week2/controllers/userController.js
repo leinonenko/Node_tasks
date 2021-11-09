@@ -1,7 +1,12 @@
 'use strict';
 //userController
-const {getAllUsers, getUser, insertUser, deleteUser, updateUser} = require(
-    '../models/userModel');
+const {getAllUsers,
+  getUser,
+  insertUser,
+  deleteUser,
+  updateUser
+} = require('../models/userModel');
+
 const {httpError} = require('../utils/errors');
 const {validationResult} = require('express-validator');
 
@@ -30,27 +35,27 @@ const user_post = async (req, res, next) => {
   console.log('add user data', req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.error('user_post validation', errors.array());
+    console.error('User_post validation', errors.array());
     const err = httpError('Data no valid', 400);
     next(err);
     return;
   }
   const user = req.body;
   const id = await insertUser(user);
-  res.send(`cat added with id ${id}`);
+  res.send(`Cat added with id ${id}`);
   res.json(id);
 };
 
 const user_delete = async (req, res) => {
   const deleted = await deleteUser(req.params.userId);
-  res.json({message: `user deleted:${deleted}`});
+  res.json({message: `User deleted:${deleted}`});
 };
 
 const user_update = async (req, res) => {
   console.log('controller update user', req.body);
   const updated = await updateUser(req.body);
   console.log(updated);
-  res.json({message: `user updated: ${updated}`});
+  res.json({message: `User updated: ${updated}`});
 };
 
 module.exports = {
