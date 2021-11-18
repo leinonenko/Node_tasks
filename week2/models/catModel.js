@@ -56,7 +56,6 @@ const deleteCat = async (catId) => {
   }
 };
 
-
 const updateCat = async (cat) => {
   try {
     const [rows] = await promisePool.execute(
