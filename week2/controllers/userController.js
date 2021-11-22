@@ -1,7 +1,7 @@
 'use strict';
 // userController
 
-const { users, getUser } = require('../models/userModel')
+const { users, getUser, deleteUser  } = require('../models/userModel')
 
 /*
 const user_list_get = (req, res) => {
@@ -50,12 +50,12 @@ const user_get = (req, res) => {
   const user = getUser(req.params.userId);
   delete  user.password;
   res.json(user);
-}
+};
 
 const user_post = (req, res) => {
   console.log('add user data', req.body);
   res.send('From this endpoint you can add user.');
-}
+};
 
 module.exports = {
   user_list_get,
