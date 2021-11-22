@@ -17,7 +17,7 @@ const login = (req, res, next) => {
         next(httpError('login error', 400));
         return;
       }
-      const token = jwt.sign(user, 'aerfjipo9');
+      const token = jwt.sign(user, '4215');
       return res.json({ user, token });
     });
   })(req, res, next);
