@@ -26,12 +26,18 @@ router.route('/').
         body('birthdate').isDate(),
         body('weight').isNumeric().notEmpty(),
         body('owner').isNumeric().notEmpty(),
-        cat_post,
-    ).
-    put(cat_update);
+        cat_post
+    );
+
 
 router.route('/:catId')
 .get(cat_get)
-.delete(cat_delete);
+.delete(cat_delete)
+.put(
+    body('name').notEmpty(),
+    body('birthdate').isDate(),
+    body('weight').isNumeric().notEmpty(),
+    cat_update
+);
 
 module.exports = router;
