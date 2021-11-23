@@ -1,6 +1,7 @@
 'use strict';
 //userController
-const {getAllUsers,
+const {
+  getAllUsers,
   getUser,
   insertUser,
   deleteUser,
@@ -57,6 +58,13 @@ const user_update = async (req, res) => {
   console.log(updated);
   res.json({message: `User updated: ${updated}`});
 };
+const checkToken = (req, res, next) => {
+  if (!req.user) {
+    next(new Error('token not valid'));
+  } else {
+    res.json({ user: req.user });
+  }
+};
 
 module.exports = {
   user_list_get,
@@ -64,4 +72,5 @@ module.exports = {
   user_post,
   user_delete,
   user_update,
+  checkToken
 };
