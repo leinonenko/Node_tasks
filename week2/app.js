@@ -20,6 +20,9 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 
 app.use(passport.initialize());
 
+app.use(express.static('uploads'));
+app.use('/thumbnails', express.static('thumbnails'));
+
 app.use('/auth', authRoute);
 app.use('/cat', passport.authenticate('jwt', {session: false}), catRoute);
 app.use('/user', passport.authenticate('jwt', {session: false}), userRoute);

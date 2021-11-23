@@ -7,6 +7,7 @@ const {getAllCats,
   updateCat} = require('../models/catModel');
 const {httpError} = require('../utils/errors');
 const {validationResult} = require('express-validator');
+const {makeThumbnail} = require('../utils/resize');
 
 const cat_list_get = async (req, res, next) => {
   const cats = await getAllCats();
@@ -37,18 +38,29 @@ const cat_post = async (req, res, next) => {
     next(err);
     return;
   }
-  console.log('add cat data', req.body, req.user);
-  console.log('filename', req.file);
-  if (!req.file) {
-    const err = httpError('Invalid file', 400);
+  try {
+    const thumb = await makeThumbnail(req.file.path, req.file.filename);
+    console.log('add cat data', req.body, req.user);
+    console.log('filename', req.file);
+    if (!req.file) {
+      const err = httpError('Invalid file', 400);
+      next(err);
+      return;
+    }
+    const cat = req.body;
+    cat.filename = req.file.filename;
+    cat.owner = req.user.user_id;
+    const id = await insertCat(cat, next);
+    if (thumb) {
+      res.json({message: `cat added with id ${id} `, cat_id: id});
+    }
+  } catch (e) {
+    console.log('cat_post error', e.message);
+    const err = httpError('Error upload cat', 404);
     next(err);
     return;
   }
-  const cat = req.body;
-  cat.filename = req.file.filename;
-  cat.owner = req.user.user_id;
-  const id = await insertCat(cat, next);
-  res.json({message: `cat added with id ${id} `, cat_id: id});
+
 
 };
 
