@@ -8,7 +8,7 @@ const getCat = async (catId, next) => {
   console.log(catId);
   try {
     const [rows] = await promisePool.query(
-        `SELECT cat_id, owner, wop_cat.name AS name, weight, birthdate, filename, wop_user.name AS ownername FROM wop_cat INNER JOIN wop_user ON owner = user_id WHERE cat_id = ?`,
+        `SELECT coords, cat_id, owner, wop_cat.name AS name, weight, birthdate, filename, wop_user.name AS ownername FROM wop_cat INNER JOIN wop_user ON owner = user_id WHERE cat_id = ?`,
         [catId]);
     console.log('Get by id', rows);
     return rows[0];
@@ -36,8 +36,8 @@ const insertCat = async (cat) => {
   try {
     // TODO add filename
     const [rows] = await promisePool.execute(
-        'INSERT INTO `wop_cat` (name, weight, owner, birthdate, filename) VALUES (?,?,?,?,?)',
-        [cat.name, cat.weight, cat.owner, cat.birthdate, cat.filename]);
+        'INSERT INTO `wop_cat` (name, weight, owner, birthdate, filename, coords) VALUES (?,?,?,?,?,?)',
+        [cat.name, cat.weight, cat.owner, cat.birthdate, cat.filename, cat.coords]);
     console.log('model insert cat', rows);
     return rows.insertId;
   } catch (e) {

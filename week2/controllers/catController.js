@@ -8,6 +8,7 @@ const {getAllCats,
 const {httpError} = require('../utils/errors');
 const {validationResult} = require('express-validator');
 const {makeThumbnail} = require('../utils/resize');
+const {getCoordinates} = require('../utils/imageMeta');
 
 const cat_list_get = async (req, res, next) => {
   const cats = await getAllCats();
@@ -39,6 +40,15 @@ const cat_post = async (req, res, next) => {
     return;
   }
   try {
+    const coords = await getCoordinates(req.file.path);
+    console.log('coords', coords);
+    req.body.coords = JSON.stringify(coords);
+  } catch (e) {
+     req.body.coords = '[24.74, 60.24]'
+  }
+
+
+  try {
     const thumb = await makeThumbnail(req.file.path, req.file.filename);
     console.log('add cat data', req.body, req.user);
     console.log('filename', req.file);
@@ -50,6 +60,7 @@ const cat_post = async (req, res, next) => {
     const cat = req.body;
     cat.filename = req.file.filename;
     cat.owner = req.user.user_id;
+    cat.coords = JSON.stringify(coords);
     const id = await insertCat(cat, next);
     if (thumb) {
       res.json({message: `cat added with id ${id} `, cat_id: id});
