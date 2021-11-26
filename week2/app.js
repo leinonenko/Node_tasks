@@ -8,10 +8,29 @@ const userRoute = require('./routes/userRoute')
 const authRoute = require('./routes/authRoute');
 const { httpError } = require('./utils/errors')
 const passport = require('./utils/pass');
+const https = require('https');
+const http = require('http');
+const fs = require('fs');
+
+const sslkey = fs.readFileSync('ssl-key.pem');
+const sslcert = fs.readFileSync('ssl-cert.pem')
+
+const options = {
+  key: sslkey,
+  cert: sslcert
+};
+
 
 const app = express();
 const port = 3000;
 
+
+https.createServer(options, app).listen(8000);
+
+http.createServer((req, res) => {
+  res.writeHead(301, { 'Location': 'https://localhost:8000' + req.url });
+  res.end();
+}).listen(3000);
 
 app.use(cors());
 
@@ -27,6 +46,13 @@ app.use('/auth', authRoute);
 app.use('/cat', passport.authenticate('jwt', {session: false}), catRoute);
 app.use('/user', passport.authenticate('jwt', {session: false}), userRoute);
 
+app.get('/', (req, res) => {
+  if (req.secure) {
+    res.send('Hello Secure World!');
+  } else {
+    res.send('not secured?');
+  }
+});
 
 app.use((req, res, next) => {
   const  err = httpError('Not found', 404)
@@ -39,4 +65,4 @@ app.use((err, req, res, next) => {
   res.status(status). json({ message: err.message || "Internal error"});
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+//app.listen(port, () => console.log(`Example app listening on port ${port}!`));
