@@ -675,9 +675,14 @@ FodyWeavers.xsd
 
 # ignore content of uploads folder
 */uploads/*
+*/thumbnails/*
 # except one (empty) file to have the folder in version control
 !*/uploads/.gitkeep
-
+!*/thumbnails/.gitkeep
+# ignore tls certificate and private key
+certrequest.csr
+ssl-cert.pem
+ssl-key.pem
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
