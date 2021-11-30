@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require('bcryptjs')
 const catRoute = require('./routes/catRoute')
 const userRoute = require('./routes/userRoute')
 const authRoute = require('./routes/authRoute');
@@ -31,9 +32,10 @@ app.use('/auth', authRoute);
 app.use('/cat', passport.authenticate('jwt', {session: false}), catRoute);
 app.use('/user', passport.authenticate('jwt', {session: false}), userRoute);
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   if (req.secure) {
-    res.send('Hello Secure World!');
+    //res.send('Hello Secure World!');
+    res.send(await bcrypt.hash('asdf', 10));
   } else {
     res.send('not secured?');
   }
