@@ -29,7 +29,7 @@ passport.use(new Strategy(
 // consider .env for secret, e.g. secretOrKey: process.env.JWT_SECRET
 passport.use(new JWTStrategy({
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'aerfjipo9',
+      secretOrKey: 'pavlol666',
     },
     (jwtPayload, done) => {
       //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
